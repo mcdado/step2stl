@@ -10,7 +10,7 @@ You need OpenCascade.
 On Ubuntu you can try to install OpenCascade from apt. This might work:
 
 ```
-sudo apt install \
+sudo apt install build-essential clang libc++-dev libc++abi-dev \
     liboce-foundation-dev \
     liboce-modeling-dev \
     liboce-ocaf-dev \
