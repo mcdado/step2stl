@@ -1,7 +1,7 @@
 UNAME := $(shell uname -a)
-OCEINCLUDE := $(shell if test -d /usr/local/include/oce; then echo "/usr/local/include/oce"; else echo ""; fi)
+OCEINCLUDE := $(shell if test -d /usr/include/oce; then echo "/usr/include/oce"; else echo ""; fi)
 
-OPENCASCADEINC?=/usr/include/opencascade
+OPENCASCADEINC?=/usr/include/oce
 OPENCASCADELIB?=/usr/lib/opencas
 
 $(info Using OPENCASCADEINC as "${OPENCASCADEINC}")
@@ -19,8 +19,8 @@ LDFLAGS += -L$(OPENCASCADELIB) -L/usr/lib ${OCCLIBS}
 
 else
 
-CXXFLAGS += -I/usr/local/include/oce -I/usr/include
-LDFLAGS += -L/usr/local/lib -L/usr/lib ${OCCLIBS}
+CXXFLAGS += -I/usr/include/oce -I/usr/include
+LDFLAGS += -L/usr/lib -L/usr/lib ${OCCLIBS}
 
 endif
 
@@ -59,7 +59,7 @@ endif
 # Determine where we should output the object files.
 OUTDIR = debug
 ifeq "$(MAKECMDGOALS)" "debug"
- OUTDIR = debug	
+ OUTDIR = debug
  CXXFLAGS += -ggdb3
 endif
 ifeq "$(MAKECMDGOALS)" "release"
@@ -105,7 +105,7 @@ endif
 all:	$(EXE)
 
 lib:
-	g++ -I/usr/local/include/oce -O3 -L/usr/local/lib $(OCCLIBS) -o $(SHAREDLIB) $(SHARED) lib.cpp
+	g++ -I/usr/include/oce -O3 -L/usr/lib $(OCCLIBS) -o $(SHAREDLIB) $(SHARED) lib.cpp
 	ffi-generate -f lib.hpp -l $(SHAREDLIB) -m step3stl -L /Library/Developer/CommandLineTools/usr/lib > node-ffi.js
 
 debug:	$(EXE)
@@ -131,5 +131,5 @@ clean:
 	bash -c 'rm -f *.o $(OBJS) $(EXE)'
 
 install:
-	cp $(SHAREDLIB) /usr/local/lib
+	cp $(SHAREDLIB) /usr/lib
 	ldconfig
